@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blocks>
+  <block id="c41b14124d59529e2f27f5427dedeb36" category="summary">Bibliothèque logicielle intégrant les bibliothèques de disques virtuels VMware installées sur l'hôte VMware ESXi.</block>
+  <block id="b5cbb0e717e173a2a024067db337cc0c" category="doc">Plug-in NetApp NFS pour la documentation VMware VAAI</block>
+  <block id="9edbef0767827c25b7a8afbb9f6654db" category="paragraph">Avec ce plug-in, vous bénéficiez d'opérations de clonage plus performantes qui sont plus rapides. Et vous obtenez une bibliothèque de logiciels intégrant les bibliothèques de disques virtuels VMware installées sur l'hôte VMware ESXi.</block>
+  <block id="a3100bf3334206028c894a5568ddcf09" category="summary">Décrit les nouvelles fonctionnalités, les notes de mise à niveau, les problèmes résolus, les limitations connues et les problèmes connus.</block>
+  <block id="0a874eb9be2efc8299ca77a37d9c153f" category="doc">Notes de version du plug-in NetApp NFS pour VMware VAAI</block>
+  <block id="a3c89f65adac53b9fc8f1c007df5e8d1" category="paragraph">Le <block ref="5587782ec3bf4b059cb9bda76c73dcb9" category="inline-link-macro-rx"></block> décrivez les nouvelles fonctionnalités, les notes de mise à niveau, les problèmes résolus, les limites connues et les problèmes connus.</block>
+  <block id="bf98a381de0a256c298bebafc4de50a1" category="summary">L'installation du plug-in NFS implique l'activation de VMware vStorage for NFS sur le système de stockage NetApp, la vérification de l'activation de VAAI (VMware vStorage APIs for Array Integration) sur l'hôte VMware, le téléchargement et l'installation du plug-in sur l'hôte VMware ESXi, et la vérification du succès de l'installation.</block>
+  <block id="2cd449575a6433677571f502b2c3ce6e" category="doc">Installation du plug-in NetApp NFS pour VMware VAAI</block>
+  <block id="135b308ed83c53f1516b7c754566d1c4" category="list-title">Avant de commencer</block>
+  <block id="1d58a6eb2e13dd3689b7f44320319066" category="list-text">NFS v3 ou NFS v4.1 doit être activé sur le système de stockage.</block>
+  <block id="6e8842288bd1b400a94a0e07df702993" category="admonition">NFSv4.1 est disponible uniquement sur les systèmes ONTAP 9.0.1. NFS v3 est disponible sur les systèmes 7-mode et Cluster-mode.</block>
+  <block id="039911735aef4adf36915090e19821ae" category="list-text">VMware vSphere 7.0U1 doit être disponible.</block>
+  <block id="b95982609bcaa66a9948629f87fe8589" category="inline-xref">Étape 10</block>
+  <block id="1ba3ec4f2d49189c689f2f920f134c43" category="paragraph">Pour plus d'informations sur l'activation de NFS et l'utilisation de VMware vSphere, reportez-vous aux manuels répertoriés dans le <block ref="8f4290af71411856897bbab4daf63b37" category="inline-xref-macro-rx"></block>.</block>
+  <block id="bbe48fb854ea022537208eeeff822f91" category="list-title">Description de la tâche</block>
+  <block id="6f4a225b29c0975663d0e4b9e1f4547f" category="inline-xref">Étape 1</block>
+  <block id="65059694f74420f1a8022d6728d593d9" category="list-text">Si vous utilisez la CLI VMware ESXi pour installer le plug-in, commencez par <block ref="a21f3b2098abe7275d608a6a9c864195" category="inline-xref-macro-rx"></block>.</block>
+  <block id="2d5ce426423eeeead4f35769cd8b1b27" category="inline-xref">Étape 3</block>
+  <block id="3ffc3ab365a79adb8adcff39380edf83" category="list-text">Si vous utilisez Virtual Storage Console pour VMware vSphere (VSC) pour installer le plug-in, commencez par <block ref="6f5e80c5f38b7c17bfcb05f65cf8fc44" category="inline-xref-macro-rx"></block>.</block>
+  <block id="c4ca4238a0b923820dcc509a6f75849b" category="inline-xref">1</block>
+  <block id="c81e728d9d4c2f636f067f89cc14862c" category="inline-xref">2</block>
+  <block id="fb84e1c7b3725d40b76631ba1eee97b1" category="paragraph">VSC active VMware vStorage for NFS sur le contrôleur de stockage et active VAAI sur l'hôte ESXi, qui sont des étapes <block ref="9493c6647e1f9209426db866558b9c51" category="inline-xref-macro-rx"></block> à <block ref="989843df4f2b99286183effb1dd535fc" category="inline-xref-macro-rx"></block> de cette procédure.</block>
+  <block id="e4fb07b450976b3304f3201d5ad999b6" category="list-text">Si vous utilisez les outils ONTAP pour VMware vSphere pour installer le plug-in, commencez par <block ref="6f5e80c5f38b7c17bfcb05f65cf8fc44" category="inline-xref-macro-rx"></block>.</block>
+  <block id="edb7bef0507977fee035ede5263c0af2" category="paragraph">*Conventions d'adresses IP utilisées:*</block>
+  <block id="1b717bef1bd876cf4ac712d6c2e16838" category="list-text">Les adresses IP du format 192.168.42.2xx font référence aux ports VMKernel du serveur ESXi.</block>
+  <block id="d954214cd3f9a7e8baf4a4e05cca4fef" category="list-text">Les adresses IP du formulaire 192.168.42.6x font référence aux systèmes exécutant Data ONTAP 7-mode.</block>
+  <block id="f841fda56776ddab948bea75303f2c2f" category="list-text">Les adresses IP de la forme 192.168.42.8x font référence aux machines virtuelles de stockage (SVM, anciennement appelées vServers) sur les systèmes ONTAP.</block>
+  <block id="f3a29486bed19a90f2da6d007818b427" category="list-title">Étapes</block>
+  <block id="0bd6a283b9a46c2b90e3fb5657c9f5da" category="list-text">[[step1]]activez VMware vStorage pour NFS :</block>
+  <block id="67e197628ee63a9336509b8031677e89" category="cell">Si vous utilisez...</block>
+  <block id="c1325f6903ebb5ebb2bb519a73ddb1b0" category="cell">Alors...</block>
+  <block id="d41d8cd98f00b204e9800998ecf8427e" category="doc"></block>
+  <block id="de134183bea5df515a6756a539ce6f18" category="paragraph">INTERFACE DE LIGNE DE COMMANDES DE ONTAP</block>
+  <block id="c842bffb66dcdc5b972bbe3806e1acc4" category="paragraph">Activer VMware vStorage for NFS sur le SVM :<block ref="5f8a4143679aab9c4350f87f7aa1a32d" prefix=" " category="inline-code"></block><block ref="f536bcc8fda7ee8ba21dea42b5b1c44d" prefix=" " category="inline-code"></block> Est le nom du SVM.</block>
+  <block id="86ed5a61f48bcf34b144541178a9d125" category="paragraph">Interface de ligne de commandes 7-mode</block>
+  <block id="33979ab73dfc05bead46f62dd940cb20" category="paragraph">Activer VMware vStorage for NFS sur le système de stockage :<block ref="6655ceb762a8a57cd85bf63bf6e7a019" prefix=" " category="inline-code"></block></block>
+  <block id="d2ec93485d6eee295517b184e4d865b1" category="paragraph">Interface de ligne de commandes 7-mode pour les unités vFiler</block>
+  <block id="b671f3d5fe5611645439610765306dff" category="paragraph">Activer l'installation du plug-in NetApp NFS vStorage for NFS sur l'unité MultiStore vFiler hébergeant les datastores VMware NFS :<block ref="041f8e1f39a6c15659022df77b6b3eb2" prefix=" " category="inline-code"></block></block>
+  <block id="523b8c395b4782b100a432b78cf7bf82" category="list-text">[[step2]]Vérifiez que VAAI est activé sur chaque hôte ESXi.</block>
+  <block id="859fdcf37593d727a4f59d5b7abb03a4" category="paragraph">Dans VMware vSphere 5.0 et versions ultérieures, VAAI est activé par défaut.</block>
+  <block id="41562a9885b30f2d4d0409feec112301" category="paragraph">CLI VMware ESXi</block>
+  <block id="cffa1dac759d2fa45a77578ec36fb45b" category="list-text">Vérifiez que VAAI est activé :<block ref="f6c7e06bf52913d1b815c09ed75d3d6c" prefix=" " category="inline-code"></block><block ref="fd2a79c81dc8e77bb983c6d858167fb9" prefix=" " category="inline-code"></block></block>
+  <block id="be7fc77cfd7eafe6e9487a977430f561" category="paragraph">Si VAAI est activé, ces commandes affichent la sortie suivante :</block>
+  <block id="933beed06ed133197bfe285c76b7ff48" category="list-text">Si VAAI n'est pas activé, activez VAAI :<block ref="78541f2f0ea924213be65b99a0bf75b6" prefix=" " category="inline-code"></block><block ref="d47e7f3f8692fd4ccf9f4a70a1028fbc" prefix=" " category="inline-code"></block></block>
+  <block id="7ec1eeb3c8010fa1ec0cdb4377f644ea" category="paragraph">Ces commandes affichent les valeurs de sortie suivantes :</block>
+  <block id="049c3503e6d434744d04bb8e3b7f39be" category="paragraph">Client vSphere</block>
+  <block id="a270592232d9d6514ce0ee979df39631" category="list-text">Connectez-vous au serveur vCenter.</block>
+  <block id="04c95cacfbf82cdde2b91c70395fd401" category="list-text">Pour chaque serveur ESXi, cliquez sur le nom du serveur.</block>
+  <block id="2b24db43f6f18905e8b2c060fc78ec98" category="list-text">Dans la section logiciel de l'onglet Configuration, cliquez sur *Paramètres avancés*.</block>
+  <block id="9be42b6b8c7cd7aa6b610841e1cfbf79" category="list-text">Sélectionnez *DataMover*, puis vérifiez que<block ref="9553b7467ba64b45e0fff9da9a3dfda4" prefix=" " category="inline-code"></block> et<block ref="c0120676c487bf9bc32b0c7b71e9a203" prefix=" " category="inline-code"></block> les paramètres sont définis sur 1.</block>
+  <block id="74efc7a80f728081c4c5dffea69a6e04" category="list-text">[[step3]]Télécharger le plug-in NetApp NFS pour VMware VAAI :</block>
+  <block id="ea193ae4c3d51a911f7315ec65bc32df" category="inline-link">Téléchargement du plug-in NetApp NFS pour VMware VAAI</block>
+  <block id="fb17ba4a99b09467f9c74b9e2e118576" category="list-text">Accédez à la page de téléchargement à l'adresse<block ref="65095c4704b8f4c7de538e0714fe91ec" category="inline-link-rx"></block>.</block>
+  <block id="fe7c02072f421eec45e6b3d6a4f22a84" category="list-text">Téléchargez la dernière version du logiciel pour la version 2.0 et vSphere 7.0U1 et les versions ultérieures.</block>
+  <block id="aa138e612a93a8ba8b0894444e154798" category="list-text">Installez le plug-in sur l'hôte ESXi à l'aide de la commande suivante :</block>
+  <block id="ffb9bd6fd201fa872c732a77697dff9c" category="paragraph"><block ref="417a8b9fa644fd9624afccd6c48e797c" prefix="" category="inline-code"></block></block>
+  <block id="b8c172cbcf6752c33f19da0dce7c36e3" category="paragraph">où<block ref="885f73cf13e071b6b552b023d45e71fc" prefix=" " category="inline-code"></block> est le chemin d'accès à l'emplacement du fichier téléchargé et<block ref="31772deaec6752f992c719712b4a96f8" prefix=" " category="inline-code"></block> est le nom du fichier téléchargé.</block>
+  <block id="33d39932b49b03dd01884f8dafa83003" category="list-text">Exécutez les commandes suivantes pour terminer l'installation :</block>
+  <block id="1aff16ddc088e52eb042b0cb7f757cfb" category="paragraph"><block ref="fc104a9563553581855ac0d1cca03143" prefix="" category="inline-code"></block></block>
+  <block id="6a0e7f9e8f08992284d207c6e71368f7" category="paragraph"><block ref="463f2c2cf40d4bcc33283f36aa688a8c" prefix="" category="inline-code"></block></block>
+  <block id="c2e0793b7a849210f05eefa6d3ed65fc" category="list-text">Vérifiez que le plug-in a été correctement installé sur l'hôte sur la ligne de commande VMware ESXi :</block>
+  <block id="771ba422c8c68985f737cf0888b8ad1d" category="paragraph"><block ref="1a3600829087ac0d9b57afd73083d198" prefix="" category="inline-code"></block></block>
+  <block id="7219cab90334f7ef06cd35e2bcf898bb" category="paragraph">Le plug-in fonctionne automatiquement après l'installation et le redémarrage.</block>
+  <block id="5a0d025781cdb77b413f4f619cfd0db1" category="paragraph">L'utilisation de ces commandes garantit que le composant reste compatible avec la nouvelle fonction vLCM de vSphere, disponible à partir de 7.0x et versions ultérieures.</block>
+  <block id="3ca7940081986321247378c8971483d2" category="inline-link-macro">Configurer les export policy pour ONTAP afin de permettre VAAI sur NFS</block>
+  <block id="1d96a4dcdde75c4e2e89f925ecbe362e" category="list-text">Si vous installez le plug-in sur un nouveau système hôte ou si le serveur exécutant ONTAP a été récemment configuré, créez ou modifiez des règles d'export policy pour les volumes racine et pour chaque volume de datastore NFS sur les serveurs ESXi qui utilisent VAAI AT <block ref="6614d749bd815cce9652fb687efa84f1" category="inline-link-macro-rx"></block>.</block>
+  <block id="0311352681d769565e8b831eb800910b" category="paragraph">Ignorez cette étape si vous utilisez Data ONTAP sous 7-mode.</block>
+  <block id="024af1758c4cacb3ad788e1fc0093065" category="paragraph">Vous pouvez utiliser des export-policies pour restreindre l'accès aux volumes à des clients spécifiques. NFSv4 est requis dans la export policy pour que le délestage des copies VAAI puisse fonctionner, il peut donc être nécessaire de modifier les règles d'export policy pour les volumes datastore sur les SVM. Si vous utilisez des protocoles autres que NFS sur un datastore, vérifiez que la configuration de NFS dans la règle d'exportation ne supprime pas ces autres protocoles.</block>
+  <block id="e36c291cc4eb06f69078bce9a1f8c962" category="cell">Si vous utilisez...</block>
+  <block id="8d2662a9ca62f4dc20a4f97b872f58c5" category="paragraph">Réglez<block ref="2521ef5d58fc027d3121662b7d8f9ac2" prefix=" " category="inline-code"></block> Comme protocole d'accès pour chaque règle d'export policy pour les serveurs ESXi qui utilisent VAAI :<block ref="04aa1b18bb0ab401e43104b37d60777f" prefix=" " category="inline-code"></block></block>
+  <block id="ea8ebf645588fe3f13e376c68337f3ad" category="paragraph">Dans l'exemple suivant :</block>
+  <block id="0b9068ecd0651bdb57ce4c018c1e7455" category="list-text"><block ref="93e9fa0fcb7aba0522283d98215b5d88" prefix="" category="inline-code"></block> Est le nom du SVM.</block>
+  <block id="a2293bfc0d631349795b9bade6d07005" category="list-text"><block ref="66749c9f11a9877add66f3a706e5c2cd" prefix="" category="inline-code"></block> est le nom de la export policy.</block>
+  <block id="ce75b12c88818155edadea982e751c55" category="list-text"><block ref="c4ca4238a0b923820dcc509a6f75849b" prefix="" category="inline-code"></block> est le numéro d'index de la règle.</block>
+  <block id="8401173a9c3e4cf3af7fc935baa22d59" category="list-text"><block ref="2521ef5d58fc027d3121662b7d8f9ac2" prefix="" category="inline-code"></block> Inclut les protocoles NFSv3 et NFSv4.</block>
+  <block id="3bd95d42e0e2974cf0801ead211ea45f" category="list-text">Le style de sécurité pour RO (lecture seule) et RW (lecture-écriture) est soit krb5, krb5i, soit n'importe quel.</block>
+  <block id="6ad5e0a20f49ad6a370454bb3afc9a9e" category="paragraph">ONTAP System Manager</block>
+  <block id="429967c315f871c1cfc6eab4d40ac195" category="list-text">Dans l'onglet Accueil, double-cliquez sur le cluster approprié.</block>
+  <block id="4632418052c7e8ea45ec3aacd263e628" category="list-text">Développez la hiérarchie des SVM (Storage Virtual machines) dans le volet de navigation de gauche.</block>
+  <block id="4d4674159d5197b421336dd2d287e061" category="admonition">Si vous utilisez une version de System Manager antérieure à 3.1, le terme vServers est utilisé à la place des machines virtuelles de stockage dans la hiérarchie.</block>
+  <block id="bf466c7b406d1a8ce527949882e5d4ef" category="list-text">Dans le volet de navigation, sélectionnez la machine virtuelle de stockage (SVM) avec datastores compatibles VAAI, puis cliquez sur *Policies* &gt; *Export Policies*.</block>
+  <block id="4ddbde9e87bce8ce72ecc216368b8a0c" category="list-text">Dans la fenêtre Export Policies, développez la export policy, puis sélectionnez l'index de la règle.</block>
+  <block id="19019c13d84b1f8462c766c0987ccd7e" category="paragraph">L'interface utilisateur ne spécifie pas que le datastore est activé pour VAAI.</block>
+  <block id="1230dd799e049f8ecc0662d9bdc08146" category="list-text">Cliquez sur *Modifier règle* pour afficher la boîte de dialogue Modifier règle d'exportation.</block>
+  <block id="58e85423546b794a1c71ca9387300b8a" category="list-text">Sous *Access Protocols*, sélectionnez *NFS* pour activer toutes les versions de NFS.</block>
+  <block id="a72cc47fad7d1846d19b085d2e77e5ba" category="list-text">Cliquez sur *OK*.</block>
+  <block id="7714147f560840391e6e489fba841be4" category="list-text">Si vous utilisez Data ONTAP sous 7-mode, exécutez la<block ref="6996e59d61b6d88f4768635c22d89096" prefix=" " category="inline-code"></block> commande d'exportation des chemins de volume.</block>
+  <block id="931043dc28ff99663fd7a88ace5a39f1" category="paragraph">Ignorez cette étape si vous utilisez ONTAP.</block>
+  <block id="20514f4ef4b2ecf02e2a9ed04cc6f36d" category="inline-link">Guide de gestion des protocoles et des accès aux fichiers Data ONTAP 8.2 pour 7-mode</block>
+  <block id="4cd8e8ed7076316854376865caa78af1" category="paragraph">Pour plus d'informations sur le<block ref="6996e59d61b6d88f4768635c22d89096" prefix=" " category="inline-code"></block> voir la<block ref="a7a4d9fbc8e40171329ee3167349133a" category="inline-link-rx"></block>.</block>
+  <block id="ff9fbbecd46a0bb898c3a37562cba9ba" category="paragraph">Lors de l'exportation du volume, vous pouvez spécifier un nom d'hôte ou une adresse IP, un sous-réseau ou un groupe réseau. Vous pouvez spécifier une adresse IP, un sous-réseau ou des hôtes pour les deux<block ref="038c0dc8a958ffea17af047244fb6960" prefix=" " category="inline-code"></block> et<block ref="63a9f0ea7bb98050796b649e85481845" prefix=" " category="inline-code"></block> options. Par exemple :</block>
+  <block id="b601154cd7bd31804dab33d0205b3d59" category="paragraph">Vous pouvez également avoir une liste, séparée par deux-points. Par exemple :</block>
+  <block id="43567a05f0b7aaa853ebbee1fb7f199d" category="paragraph">Si vous exportez le volume avec l'indicateur réel, le chemin d'exportation doit avoir un seul composant pour que le déchargement de copie fonctionne correctement. Par exemple :</block>
+  <block id="0c8d07701ae1824f42d90b30a7e1666e" category="admonition">L'allègement de la charge des copies ne fonctionne pas pour les chemins d'exportation multicomposants.</block>
+  <block id="f4fbabc76fed54aeb7056189f57a06cf" category="list-text">Monter le datastore NFS v3 ou NFS v4.1 sur l'hôte ESXi :</block>
+  <block id="06a0c6bdff38aaea20edd04befaa7cf4" category="list-text">Pour monter le datastore NFSv3, exécutez la commande suivante :</block>
+  <block id="eea31f969123e8c01c6206105f168dbc" category="paragraph"><block ref="c756ba4cbc032af2b463e17e6fbb74a3" prefix="" category="inline-code"></block></block>
+  <block id="fa81050228a7979a3643f93064374458" category="paragraph">Pour monter le datastore NFSv4.1, exécuter la commande suivante :</block>
+  <block id="9b10cdd24aabd0e283cb4bb7a93fa6bf" category="paragraph"><block ref="7070947d5e0dbfcfcb8cf8b2ee02d93d" prefix="" category="inline-code"></block></block>
+  <block id="b3defb89c39d7c46224465f10d9676fd" category="paragraph">L'exemple suivant montre la commande à exécuter sur ONTAP pour le montage du datastore et la sortie résultante :</block>
+  <block id="f50d1fc9b6e567177fd7e24b7cebf13a" category="paragraph">Pour les systèmes exécutant Data ONTAP 7-mode, le<block ref="a7d3353ba51bc87945d5671abb81c25d" prefix=" " category="inline-code"></block> Préfixe précédant le nom du volume NFS. L'exemple suivant montre la commande 7-mode pour le montage du datastore et la sortie obtenue :</block>
+  <block id="fdde8a813cc897a0235421b8bc176ad8" category="list-text">Pour gérer les montages NAS :</block>
+  <block id="903ca6b068d7144bb3c1f4d6bfc2af74" category="paragraph"><block ref="c63d2ac219757ba8de458a1025746a3a" prefix="" category="inline-code"></block></block>
+  <block id="9a940b51cdd2b2d508cffc6eecff9e32" category="paragraph">Les valeurs de sortie suivantes sont affichées :</block>
+  <block id="6f4d47f8c8d7727aa5492bec4c200dc1" category="paragraph">À la fin de ce traitement, le volume est monté et disponible dans le répertoire /vmfs/volumes.</block>
+  <block id="5d86e677f2f7a3fcfe5e676211793109" category="list-text">[[step10]]vérifier que le datastore monté prend en charge VAAI à l'aide de l'une des méthodes suivantes :</block>
+  <block id="600f0fcedd4bec226e6bb389e48e9d44" category="paragraph">CLI ESXi</block>
+  <block id="f914d297eddb56f343f32285bde99edc" category="paragraph"><block ref="157c2607db73e98889688e6e6519c36b" prefix="" category="inline-code"></block>Les valeurs de sortie suivantes sont affichées :</block>
+  <block id="4828d21c9bbab0d33e38b4f614088419" category="list-text">Cliquez sur *VMware ESXi* &gt; *Configuration* &gt; *stockage*.</block>
+  <block id="e6177607b7b959c72232448dcbff1437" category="list-text">Afficher la colonne Hardware Acceleration pour un datastore NFS sur lequel VAAI est activé.</block>
+  <block id="48479cae19359032ca558ab40e766d8b" category="paragraph">Pour plus d'informations sur VMware vStorage over NFS, consultez les documents suivants :</block>
+  <block id="6f37bae0644ff45757cfbdc025575308" category="inline-link">Présentation de référence de ONTAP 9 NFS</block>
+  <block id="31c7b98065ebcc9bb646d65a31554c86" category="paragraph"><block ref="31c7b98065ebcc9bb646d65a31554c86" category="inline-link-rx"></block></block>
+  <block id="1cb6b8cf0e15b5ac07411b9b7a490e47" category="paragraph"><block ref="1cb6b8cf0e15b5ac07411b9b7a490e47" category="inline-link-rx"></block></block>
+  <block id="e719123b280714497e885444c73f4d05" category="paragraph">Pour plus d'informations sur la configuration des volumes et de l'espace dans les volumes, reportez-vous aux sections suivantes :</block>
+  <block id="48661ca2c38172b10371fe966f66da49" category="inline-link">Présentation de la gestion du stockage logique avec l'interface de ligne de commande</block>
+  <block id="4b10da8d27b7c6ed1a851c109f41b9ca" category="paragraph"><block ref="4b10da8d27b7c6ed1a851c109f41b9ca" category="inline-link-rx"></block></block>
+  <block id="25253afb20178012e025c46d720e471f" category="inline-link-macro">Guide de gestion du stockage Data ONTAP 8.2 pour 7-mode</block>
+  <block id="61daba862d2376f8b93ec7ef7d49fd75" category="paragraph"><block ref="61daba862d2376f8b93ec7ef7d49fd75" category="inline-link-macro-rx"></block></block>
+  <block id="6051dbe11c9fa8130af42b60ae66abc1" category="paragraph">Pour plus d'informations sur VMware vSphere Lifecycle Manager, qui peut également être utilisé pour installer et gérer des plug-ins sur plusieurs hôtes à l'aide de l'interface graphique du client web vCenter, consultez les éléments suivants :</block>
+  <block id="c7de9d22e1f240785cd33a59ab2501bf" category="inline-link-macro">À propos de VMware vSphere Lifecycle Manager</block>
+  <block id="949d7ff889763466db0527cc213b1407" category="paragraph"><block ref="949d7ff889763466db0527cc213b1407" category="inline-link-macro-rx"></block></block>
+  <block id="c725edf2ef5380bd2a6417570f562385" category="paragraph">Pour plus d'informations sur l'utilisation de VSC pour le provisionnement de datastores NFS et la création de clones de machines virtuelles dans l'environnement VMware, consultez les éléments suivants :</block>
+  <block id="b8e6c41a6ffba0d701c83cf094867e7a" category="inline-link-macro">Guide d'installation et d'administration de Virtual Storage Console 6.2.1 pour VMware vSphere</block>
+  <block id="ac6c54c75c97de348bf2b96539b333cd" category="paragraph"><block ref="ac6c54c75c97de348bf2b96539b333cd" category="inline-link-macro-rx"></block></block>
+  <block id="d0138273a9c078c63e6084c7a44264e0" category="paragraph">Pour plus d'informations sur l'utilisation des outils ONTAP pour VMware vSphere afin de provisionner des datastores NFS et de créer des clones de machines virtuelles dans l'environnement VMware, consultez les éléments suivants :</block>
+  <block id="46c4d9bfa1c229940459326940489ab0" category="inline-link-macro">Documentation sur les outils ONTAP pour VMware vSphere</block>
+  <block id="7ebb78c9ff6537bf758fcaf4454224fb" category="paragraph"><block ref="7ebb78c9ff6537bf758fcaf4454224fb" category="inline-link-macro-rx"></block></block>
+  <block id="47ae61fb7877ca4ff133394b75bbec70" category="paragraph">Pour plus d'informations sur l'utilisation des datastores NFS et les opérations de clonage, consultez les sections suivantes :</block>
+  <block id="b13dcdadb494dbca247bd930b7d1cd96" category="inline-link-macro">Stockage VMware vSphere</block>
+  <block id="23824440fc7fb7db9a130560bbb0f369" category="paragraph"><block ref="23824440fc7fb7db9a130560bbb0f369" category="inline-link-macro-rx"></block></block>
+  <block id="6197846c485d1298a47650886df4fd1c" category="list-text">Si vous utilisez Data ONTAP sous 7-mode, exécutez la<block ref="bacee59ff67c2b0a6693c782159a7fd7" prefix=" " category="inline-code"></block> commande permettant d'activer le volume du datastore pour le déchargement des copies et la déduplication.</block>
+  <block id="cd950bbb6ad069b72e227946d088f103" category="paragraph">Pour ONTAP, voir les détails de l'efficacité d'un volume :</block>
+  <block id="9502ad25405d9e7a6e956b85b44e2b67" category="paragraph"><block ref="c2bacf28dcfa39e0b02ff9b525cf02e1" prefix="" category="inline-code"></block></block>
+  <block id="6c00a578fa5efbe2777203b3cc135def" category="admonition">Pour les systèmes AFF (AFF), l'efficacité des volumes est activée par défaut.</block>
+  <block id="02b7374228dd75ca16d1ad24b559e889" category="paragraph">Si le résultat de la commande n'affiche aucun volume dont l'efficacité du stockage est activée, alors activez l'efficacité :</block>
+  <block id="527c1ce66e27bc62a475464fc01ba55d" category="paragraph"><block ref="348ada1de0ec20689ae1c2b6f173268b" prefix="" category="inline-code"></block></block>
+  <block id="86a451460ce6857e870c4751322edb39" category="paragraph">Ignorez cette étape si vous utilisez VSC ou les outils ONTAP pour VMware vSphere pour configurer les volumes, car l'efficacité des volumes est activée par défaut sur les datastores.</block>
+  <block id="0831e0b927f21d4b42cc48055383e97b" category="paragraph">Pour plus d'informations sur l'activation de la déduplication sur les volumes de datastore, consultez les documents suivants :</block>
+  <block id="34f5c90d63f7671b078024b7c9005693" category="paragraph">Utilisez les fonctionnalités de réservation d'espace du plug-in NFS et de déchargement de copies pour améliorer l'efficacité des tâches de routine :</block>
+  <block id="aba025f9027bbfd4b3f9f8299f617a35" category="list-text">Créez des machines virtuelles au format VMDK (Virtual machine Disk) sur les volumes ou FlexVol NetApp traditionnels et réservez de l'espace pour le fichier lors de sa création.</block>
+  <block id="b2c409659c8a7c494ff523bddfb1f19b" category="list-text">Clonez des machines virtuelles existantes dans ou entre les volumes NetApp :</block>
+  <block id="94dba74cb05f8a4f56ee0c2037e1617f" category="list-text">Datastores qui sont des volumes sur le même SVM sur le même nœud.</block>
+  <block id="b2ea5d37750dbd29ccc07733e3befafc" category="list-text">Datastores de volumes sur différents nœuds situés sur le même SVM.</block>
+  <block id="b092579e56e3ea512e53820f2c9fb793" category="list-text">Datastores résidant sur le même système 7-mode ou une même unité vFiler.</block>
+  <block id="208931a06561a452023c11db44400baf" category="list-text">Réalisez des opérations de clonage plus rapides que les opérations de clonage non VAAI, car elles n'ont pas besoin de passer par l'hôte ESXi.</block>
+  <block id="28c2848f4740f85fcc719678504b6d1f" category="summary">Vous devez configurer des règles d'exportation afin d'assurer la conformité entre les fonctionnalités de stockage VMware vStorage APIs for Array Integration (VAAI) sur le serveur NFS et le stockage NetApp. Dans ONTAP, les exportations de volumes sont restreintes par des règles d'exportation qui sont appliquées sur les machines virtuelles de stockage (SVM, anciennement appelées vServers).</block>
+  <block id="a0bcc354fa396eb75b84d4d02d9b7718" category="list-text">Les appels NFSv4 doivent être autorisés par les volumes NFS concernés.</block>
+  <block id="81bd63e6e41408704c76c863a34ea963" category="list-text">L'utilisateur racine doit être conservé en tant qu'utilisateur principal.</block>
+  <block id="f3f9c8b334ab43ae4a02968721968177" category="list-text">NFSv4 doit être autorisé sur tous les volumes parent interconnectés.</block>
+  <block id="169893540e481d950c2ea6f83c19c278" category="list-text">L'option pour la prise en charge VAAI doit être définie sur le serveur NFS concerné.</block>
+  <block id="d3b17ff817b0c51315f99bafc8e26760" category="paragraph">Vous pouvez configurer plusieurs export-policy pour plusieurs conditions et protocoles.</block>
+  <block id="0c07530e6b80f7d242af8944697c7fcb" category="list-text">Si une export policy n'est pas créée, créer une export policy pour le SVM dans le volume root de l'hôte VMware ESXi qui contient le nom du SVM, le nom de la policy, l'index de la règle par défaut, le protocole, etc.</block>
+  <block id="a281c08ab625c701854dd4a5b02d8f23" category="paragraph"><block ref="aba43b326327a9d4657b5a94d46c99c3" prefix="" category="inline-code"></block></block>
+  <block id="70432d21c84231dc621b8775791be8da" category="list-text">Modifier la export policy pour autoriser les protocoles NFSv3 et NFSv4 dans les conditions suivantes :</block>
+  <block id="0be60a7d83c1b91093247b32008e2271" category="list-text">Vous devez avoir configuré la règle export policy pour le serveur ESX respectif et le volume avec toutes les autorisations d'accès appropriées.</block>
+  <block id="c287667cced8db78caa0010cbc3b6f8a" category="list-text">Vous devez avoir défini les valeurs de RW, RO et Superuser sur<block ref="834c3d60d84e11303f54a7dabaacb567" prefix=" " category="inline-code"></block> ou<block ref="8e1bde3c3d303163521522cf1d62f21f" prefix=" " category="inline-code"></block> pour la correspondance client.</block>
+  <block id="821f78872960ff3d624c50c7af895a19" category="list-text">Vous devez avoir autorisé le protocole NFSv3 et NFSv4.</block>
+  <block id="2be50b060bf9196c69f84b064ef8d336" category="paragraph">Le protocole d'accès dans la export policy est défini comme suit :</block>
+  <block id="95ae52d90454f4e2dfa2fc228fbdd7b0" category="list-text">Protocole d'accès =<block ref="2521ef5d58fc027d3121662b7d8f9ac2" prefix=" " category="inline-code"></block> (À inclure toutes les versions de NFS)</block>
+  <block id="4d4aed4d533554a21cdb8e566180e66a" category="list-text">Protocole d'accès =<block ref="1b5ad5217299ac08e7305ed9ae0fc329" prefix=" " category="inline-code"></block>,<block ref="045b07c077b39ac849fd24abe6aecc82" prefix=" " category="inline-code"></block> (NFS v3 pour l'accès au datastore NFS v3) et NFS V4 (pour l'accès au datastore NFS v4.1).)</block>
+  <block id="9aa76cd2560b0a0c4f856ced220c2b26" category="paragraph">Les commandes suivantes permettent d'afficher les détails du SVM et de définir la export policy :</block>
+  <block id="2663c9e43716235cc5be7f82db47d29b" category="paragraph">Toute modification des règles est appliquée à tous les volumes selon la stratégie adéquate et ne se limite pas aux volumes du datastore NFS.</block>
+  <block id="6486c417bf9c55f6f4cfcce6cf052e12" category="list-text">Modifiez la stratégie d'exportation pour définir le superutilisateur comme SYS avec les conditions suivantes :</block>
+  <block id="bbd0fba21fb02513be355c2c122c019e" category="list-text">Vous devez avoir configuré tous les volumes parents du Junction path avec l'autorisation d'accès en lecture du volume root, l'accès NFSv4 et l'accès VAAI au Junction volume.</block>
+  <block id="e6ce85fec1798fdaac07f26925e16929" category="paragraph">Le superutilisateur du volume root du SVM est défini sur SYS pour le client en question.</block>
+  <block id="a00987e9122193686f425d5b92f69433" category="list-text">Vous devez avoir refusé l'autorisation d'accès en écriture pour le volume root du SVM. Les commandes suivantes permettent d'afficher les détails du SVM et de définir la export policy :</block>
+  <block id="7383404c82f19532ca1ae39f882437ac" category="paragraph">L'utilisateur root est conservé car le superutilisateur est défini sur SYS. Par conséquent, l'utilisateur root peut accéder au volume doté du Junction path /VAAI.</block>
+  <block id="5ecfb3f09d557dd0b083daf8fa2c8e4e" category="paragraph">Si des volumes supplémentaires existent dans les jonctions entre le volume racine et le volume vmware_VAAI, ces volumes doivent avoir une règle de stratégie pour le client respectif, où le superutilisateur est défini sur SYS ou SUR N'IMPORTE QUEL.</block>
+  <block id="c06676376a8fd8cb681319de1b138ec8" category="paragraph">Dans la plupart des cas, le volume racine utilise une règle avec le nom de la règle défini sur par défaut.</block>
+  <block id="078b17dae2441e6af63b3c20a7546ae8" category="paragraph">Toute modification des règles est appliquée à tous les volumes grâce à la règle adéquate et n'est pas limitée au volume racine.</block>
+  <block id="2db4e6a4f6bd313f133e8782768263ab" category="list-text">Activer la fonction vStorage :<block ref="ffbe15119f7579a4980b3aeb8918fceb" prefix=" " category="inline-code"></block></block>
+  <block id="c9a163326247e50e0595bbb1eb7fe53c" category="paragraph">Le service NFS installé sur le SVM nécessite l'activation de la fonction vStorage.</block>
+  <block id="1979b5fa591e7f384e495c144fd00e88" category="list-text">Vérifier que la fonction vStorage est activée :</block>
+  <block id="a09f72b32eb33d59d53f3a5fc8e31c94" category="paragraph"><block ref="5be208a2bf90b665112fdfe925ca68a8" prefix="" category="inline-code"></block></block>
+  <block id="76f4b5cd4699c9fde627ad73d421ee52" category="paragraph">La sortie doit s'afficher<block ref="a10311459433adf322f2590a4987c423" prefix=" " category="inline-code"></block>:</block>
+  <block id="177de6400c2cce3c75e75d84f9ee17a5" category="list-text">Création de la export policy :</block>
+  <block id="662101238aa84e945c980e15357c039f" category="paragraph"><block ref="729c5e15acc8b31618fe3265de1c624b" prefix="" category="inline-code"></block></block>
+  <block id="35fe1217cae1d0b6e7d29fda2cfe9903" category="paragraph">Les commandes suivantes créent la règle export policy :</block>
+  <block id="d238d1f50ab0ddeaaa09380a04bac848" category="list-text">Afficher les export policy :</block>
+  <block id="d1adc53af9357da290baa38b065a4c43" category="paragraph"><block ref="81fdc65419165207d0f3b0ece7db1d35" prefix="" category="inline-code"></block></block>
+  <block id="310ccf00aa1239adf7da52ab9f8a1cfb" category="paragraph">Les commandes suivantes permettent d'afficher les export policy :</block>
+  <block id="e9c44bbfd795a5d63d74c6a77afee70d" category="summary">Les mentions légales donnent accès aux déclarations de copyright, aux marques, aux brevets, etc.</block>
+  <block id="30d965eef5ba25c6b9998ae38270b43e" category="doc">Mentions légales</block>
+  <block id="6016a2b341113bf496b719905398ecd2" category="section-title">Droits d'auteur</block>
+  <block id="09e95b77ffe81fe465a83ba99efad5c8" category="paragraph"><block ref="09e95b77ffe81fe465a83ba99efad5c8" category="inline-link-rx"></block></block>
+  <block id="126a02652da6de02962cf1b654fd6376" category="section-title">Marques déposées</block>
+  <block id="c4ce4761e466527d26b3e3d5ed1006fd" category="paragraph">NetApp, le logo NETAPP et les marques mentionnées sur la page des marques commerciales NetApp sont des marques commerciales de NetApp, Inc. Les autres noms de sociétés et de produits peuvent être des marques commerciales de leurs propriétaires respectifs.</block>
+  <block id="7aa531e9acfe2b98e34d2c92fe9846ff" category="paragraph"><block ref="7aa531e9acfe2b98e34d2c92fe9846ff" category="inline-link-rx"></block></block>
+  <block id="be89498d2f8a22ce47c02ba9795fe2af" category="section-title">Brevets</block>
+  <block id="d0b19d36be2c5f16e9aef46c8a452d3d" category="paragraph">Vous trouverez une liste actuelle des brevets appartenant à NetApp à l'adresse suivante :</block>
+  <block id="d7f1fbcf9ce4e42f705add574d262b2c" category="paragraph"><block ref="d7f1fbcf9ce4e42f705add574d262b2c" category="inline-link-rx"></block></block>
+  <block id="56c34c6410dd45c5cec44149ad0ce037" category="section-title">Politique de confidentialité</block>
+  <block id="fc248f74f5e36542f7f5627b8610e9a3" category="paragraph"><block ref="fc248f74f5e36542f7f5627b8610e9a3" category="inline-link-rx"></block></block>
+  <block id="24efa7ee4511563b16144f39706d594f" category="section-title">Avertissement</block>
+  <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">Les fichiers de notification fournissent des informations sur les droits d'auteur et les licences de tiers utilisés dans le logiciel NetApp.</block>
+  <block id="6cd1b6ee7bdd5546c48ec8d3c4788ba4" category="inline-link-macro">NetApp NFS Plug-in pour VMware VAAI</block>
+  <block id="c16c6d451761c08c80d8d01b2843cffb" category="paragraph"><block ref="c16c6d451761c08c80d8d01b2843cffb" category="inline-link-macro-rx"></block></block>
+  <block id="9974abf4679b4ac4f12d0dbfbfb114b8" category="sidebar">Plug-in NetApp NFS pour les documents VMware VAAI</block>
+  <block id="5dd03e8d039863e563e049be198c3fd3" category="sidebar">Notes de version</block>
+  <block id="9f1444ca3aac0720c37a8103593b319f" category="sidebar">Installation et configuration</block>
+  <block id="d648f2a68a54fd1b3329efc3cf24d29c" category="sidebar">Mentions légales</block>
+</blocks>
