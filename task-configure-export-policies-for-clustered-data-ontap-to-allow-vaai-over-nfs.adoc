@@ -20,6 +20,7 @@ Vous devez configurer des règles d'exportation afin d'assurer la conformité en
 * L'option pour la prise en charge VAAI doit être définie sur le serveur NFS concerné.
 
 
+.Description de la tâche
 Vous pouvez configurer plusieurs export-policy pour plusieurs conditions et protocoles.
 
 .Étapes
