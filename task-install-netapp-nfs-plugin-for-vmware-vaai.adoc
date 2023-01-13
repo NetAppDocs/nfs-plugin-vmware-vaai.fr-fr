@@ -133,19 +133,58 @@ Client vSphere
 .. Téléchargez la dernière version du logiciel pour la version 2.0 et vSphere 7.0U1 et les versions ultérieures.
 
 
-. Installez le plug-in sur l'hôte ESXi à l'aide de la commande suivante :
+. Vérifiez le binaire à l'aide de l'image signée et de la clé publique :
 +
-`esxcli software component apply -d /<tmp>/<or>/<some_path\>/<downloaded-plugin-file-version\>.zip`
+.. Téléchargez le fichier zip suivant sur le `/tmp` dossier :
++
+`NetAppNasPlugin-<version>.Signed.zip`
 
 +
-où `<some_path>` est le chemin d'accès à l'emplacement du fichier téléchargé et `<downloaded-plugin-file-version>` est le nom du fichier téléchargé.
+Ce zip contient les fichiers suivants :
 
-. Exécutez les commandes suivantes pour terminer l'installation :
++
+*** `NetAppNasPlugin-<version>.zip`
+*** `NetAppNasPlugin-<version>.zip.sig`
+*** `csc-prod-CFSG-NFS-Plugin.pem`
+
+
+.. Obtenez la clé publique de la chaîne de certificats à l'aide de la commande suivante :
++
+`openssl x509 -in csc-prod-CFSG-NFS-Plugin.pem -pubkey -noout > csc-prod-CFSG-NFS-Plugin.pub`
+
++
+*** `csc-prod-CFSG-NFS-Plugin.pem` est la chaîne de certificat présente dans `NetAppNasPlugin-<version>.Signed.zip`
+*** `csc-prod-CFSG-NFS-Plugin.pub` est une clé publique
+
+
+.. Vérifiez l'image signée à l'aide de la clé publique :
++
+`openssl dgst -sha256 -verify csc-prod-CFSG-NFS-Plugin.pub -signature /tmp/ NetAppNasPlugin-<version>.zip.sig  /tmp/NetAppNasPlugin-<version>.zip`
+
++
+Si la vérification réussit, la sortie suivante s'affiche :
+
++
+[listing]
+----
+Verified OK
+----
+
+
+. Installez le plug-in sur l'hôte ESXi en exécutant les commandes suivantes :
++
+`/etc/init.d/vaai-nasd stop`
+
++
+`esxcli software component apply -d   /tmp/<some_path>/NetAppNasPlugin-<version>.zip`
+
 +
 `/etc/init.d/vaai-nasd start`
 
 +
-`/etc/init.d/vaai-nasd stop`
+** `<some_path>` est le chemin d'accès à l'emplacement du fichier téléchargé
+** `NetAppNasPlugin-<version>.zip` se trouve dans le fichier zip téléchargé
+
 
 . Vérifiez que le plug-in a été correctement installé sur l'hôte sur la ligne de commande VMware ESXi :
 +
