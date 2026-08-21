@@ -416,7 +416,7 @@ link:https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-dsg/home.html["Doc
 Pour plus d'informations sur l'utilisation des datastores NFS et les opérations de clonage, consultez les sections suivantes :
 
 +
-link:http://pubs.vmware.com/vsphere-60/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-60-storage-guide.pdf["Stockage VMware vSphere"^]
+link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage.html["Stockage VMware vSphere"^]
 
 . Si vous utilisez Data ONTAP sous 7-mode, exécutez la `sis on` commande permettant d'activer le volume du datastore pour le déchargement des copies et la déduplication.
 +
